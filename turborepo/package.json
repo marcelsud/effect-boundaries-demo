@@ -1,0 +1,25 @@
+{
+  "name": "effect-boundaries-demo-turborepo",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "boundaries": "cd .. && turborepo/node_modules/.bin/turbo --root-turbo-json turborepo/turbo.json boundaries",
+    "build": "cd .. && turborepo/node_modules/.bin/turbo --root-turbo-json turborepo/turbo.json run build",
+    "check": "cd .. && turborepo/node_modules/.bin/turbo --root-turbo-json turborepo/turbo.json run build demo",
+    "demo": "cd .. && turborepo/node_modules/.bin/turbo --root-turbo-json turborepo/turbo.json run demo --filter=@shop/demo",
+    "graph": "cd .. && turborepo/node_modules/.bin/turbo --root-turbo-json turborepo/turbo.json run build --graph",
+    "setup:hooks": "git -C .. config core.hooksPath .githooks",
+    "format": "cd .. && turborepo/node_modules/.bin/prettier --write .",
+    "format:check": "cd .. && turborepo/node_modules/.bin/prettier --check ."
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "prettier": "3.9.10",
+    "turbo": "2.11.10",
+    "typescript": "6.0.3"
+  },
+  "packageManager": "bun@1.4.4"
+}

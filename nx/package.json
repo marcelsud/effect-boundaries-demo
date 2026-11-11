@@ -1,0 +1,29 @@
+{
+  "name": "effect-boundaries-demo-nx",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "cd .. && nx/node_modules/.bin/nx run-many -t build --outputStyle=static",
+    "lint": "cd .. && nx/node_modules/.bin/nx run-many -t lint --outputStyle=static",
+    "check": "cd .. && nx/node_modules/.bin/nx run-many -t build demo --outputStyle=static",
+    "demo": "cd .. && nx/node_modules/.bin/nx run @shop/demo:demo --outputStyle=static",
+    "graph": "cd .. && nx/node_modules/.bin/nx graph",
+    "setup:hooks": "git -C .. config core.hooksPath .githooks",
+    "format": "cd .. && nx/node_modules/.bin/prettier --write .",
+    "format:check": "cd .. && nx/node_modules/.bin/prettier --check ."
+  },
+  "devDependencies": {
+    "@nx/eslint": "24.0.4",
+    "@nx/eslint-plugin": "24.0.4",
+    "@types/node": "^24.0.0",
+    "@typescript-eslint/parser": "8.72.1",
+    "eslint": "10.14.0",
+    "nx": "24.0.4",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3"
+  },
+  "packageManager": "bun@1.4.4"
+}
