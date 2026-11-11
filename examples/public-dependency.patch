@@ -1,0 +1,59 @@
+--- a/packages/logistics/package.json
++++ b/packages/logistics/package.json
+@@ -10,7 +10,8 @@
+     }
+   },
+   "dependencies": {
+-    "effect": "4.1.2"
++    "effect": "4.1.2",
++    "@shop/pricing": "*"
+   },
+   "scripts": {
+     "build": "tsc -p tsconfig.json"
+--- a/packages/logistics/tsconfig.json
++++ b/packages/logistics/tsconfig.json
+@@ -1,8 +1,6 @@
+ {
+   "extends": "../../tsconfig.base.json",
+-  "compilerOptions": {
+-    "rootDir": "src",
+-    "outDir": "dist"
+-  },
+-  "include": ["src/**/*.ts"]
++  "compilerOptions": { "rootDir": "src", "outDir": "dist" },
++  "include": ["src/**/*.ts"],
++  "references": [{ "path": "../pricing" }]
+ }
+--- a/packages/logistics/src/internal/logistics.service.ts
++++ b/packages/logistics/src/internal/logistics.service.ts
+@@ -1,4 +1,5 @@
+ import { Context, Effect, Layer, Schema } from "effect";
++import { Pricing, PricingLive } from "@shop/pricing";
+ import {
+   InventoryRepository,
+   InventoryRepositoryLive,
+@@ -43,6 +44,7 @@
+   Logistics,
+   Effect.gen(function* () {
+     const inventory = yield* InventoryRepository;
++    const pricing = yield* Pricing;
+     return {
+       getAvailability: Effect.fn("Logistics.getAvailability")(function* (
+         request: GetAvailabilityRequest,
+@@ -50,6 +52,10 @@
+         const { productId } = yield* Schema.decodeUnknownEffect(
+           GetAvailabilityRequest,
+         )(request).pipe(Effect.mapError(logisticsFailure("request")));
++        yield* pricing.getPrice({ productId }).pipe(
++          Effect.catchTag("PriceUnavailable", () => Effect.succeed(undefined)),
++          Effect.mapError(logisticsFailure("dependency")),
++        );
+         const row = yield* inventory.quantity(productId);
+         return yield* Schema.decodeUnknownEffect(Quantity)(row).pipe(
+           Effect.mapError(logisticsFailure("storage")),
+@@ -57,4 +63,4 @@
+       }),
+     };
+   }),
+-).pipe(Layer.provide(InventoryRepositoryLive));
++).pipe(Layer.provide(InventoryRepositoryLive), Layer.provide(PricingLive));

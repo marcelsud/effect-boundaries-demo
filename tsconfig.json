@@ -1,9 +1,17 @@
 {
   "files": [],
   "references": [
-    { "path": "packages/logistics" },
-    { "path": "packages/catalog" },
-    { "path": "packages/pricing" },
-    { "path": "architecture" }
+    {
+      "path": "packages/logistics"
+    },
+    {
+      "path": "packages/catalog"
+    },
+    {
+      "path": "packages/pricing"
+    },
+    {
+      "path": "apps/demo"
+    }
   ]
 }

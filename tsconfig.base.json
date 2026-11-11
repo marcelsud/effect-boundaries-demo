@@ -8,6 +8,7 @@
     "declaration": true,
     "noEmitOnError": true,
     "skipLibCheck": true,
+    "preserveSymlinks": true,
     "types": ["node"]
   }
 }

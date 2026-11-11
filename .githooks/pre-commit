@@ -1,3 +1,4 @@
 #!/bin/sh
 set -eu
-bun run check
+(cd nx && bun run check)
+(cd turborepo && bun run check)
